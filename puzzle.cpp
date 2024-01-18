@@ -92,7 +92,31 @@ void checkEmpty(int puzzle[size][size], int &emptyRow, int &emptyCol) {
     }
 }
 
-void autorunGame() {
+void findSolution(int puzzle[size][size], int &emptyRow, int &emptyCol) {
+    int destination[size][size];
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size; ++j) {
+            destination[i][j] = i * size + j + 1;
+        }
+    }
+    destination[size - 1][size - 1] = 0;
+
+    cout << "Trang thai dich:" << endl;
+    startGame(destination);
+    cout << "Dang tim kiem duong di..." << endl;
+    while (!checkWin(puzzle)) {
+        char moveOptions[] = {'W', 'S', 'A', 'D'};
+        char randomMove = moveOptions[rand() % 4];
+
+        movePuzzle(puzzle, emptyRow, emptyCol, randomMove);
+        system("cls");
+        startGame(puzzle);
+    }
+
+    cout << "Xin chuc mung ban da chien thang" << endl;
+}
+
+void thucongGame() {
     int puzzle[size][size] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 0}};
     int emptyRow, emptyCol;
     char choice;
@@ -117,8 +141,26 @@ void autorunGame() {
         }
     } while (true);
 }
+void autorunGame() {
+    int puzzle[size][size] = {{1, 2, 3}, {4, 5, 6}, {7, 8, 0}};
+    int emptyRow, emptyCol;
+    char choice;
+
+    findSolution(puzzle, emptyRow, emptyCol);
+}
 
 int main() {
-    autorunGame();
+    string input;
+    cout<<"######################### GAME PUZZLE ####################"<<endl;
+    cout << "1. Nhap 'autorun' de tu dong chay  "<<endl<<"2. Nhap phim bat ky de choi thu cong"<< endl;
+    cout << "Chon chuc nang:";
+    cin >> input;
+    
+    if (input == "autorun") {
+        autorunGame();
+    } else {
+        thucongGame();
+    }
+
     return 0;
 }
